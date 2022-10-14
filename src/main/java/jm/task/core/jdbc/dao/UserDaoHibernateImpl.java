@@ -17,7 +17,7 @@ import java.sql.SQLSyntaxErrorException;
 import java.util.List;
 import java.util.Queue;
 
-public class UserDaoHibernateImpl implements UserDao {
+public class UserDaoHibernateImpl implements UserDao  {
     public UserDaoHibernateImpl() {
 
     }
@@ -74,13 +74,9 @@ public class UserDaoHibernateImpl implements UserDao {
 //        User u = s.get(User.class, 2L);//Получение объекта по идентификатору
 //
 //        System.out.println(u.getName() + " " + u.getAge() + " test best");
-
-        CriteriaBuilder builder = s.getCriteriaBuilder();
-        CriteriaQuery query = builder.createQuery(User.class);
-        Root<User> root = query.from(User.class);
-        query.select(root);
-        Query query1 = s.createQuery(query);
-        List<User> list = query1.getResultList();
+        s.beginTransaction();
+        Query query = s.createQuery("from User");
+        List<User> list = query.getResultList();
         s.close();
 
         return list;
